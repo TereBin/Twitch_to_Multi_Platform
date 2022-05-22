@@ -3,3 +3,6 @@
 
 twitch : twitch.tv/terebin_420
 twitter : @terebin_420
+
+twitter API : Twitter API v2
+twitter Authentication : OAuth 1.0a
