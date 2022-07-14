@@ -6,4 +6,4 @@ client_key = '******************************'
 client_secret = '******************************'
 
 twitch = Twitch(client_key, client_secret)
-pprint(twitch.get_users(logins=['terebin_420']))
+pprint(twitch.get_users(logins=['YOUR_TWITCH_ID']))
