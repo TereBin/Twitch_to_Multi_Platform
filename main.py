@@ -2,10 +2,10 @@ import tweepy
 
 
 def send_tweet(tweet):
-    api_key = 'IfvXwObubZGJQx8zkpw7DZ79U'
-    api_secret = 'FtUuIbphcpn3vE1v3tDEjHs2wV7H2cnrmPbswZcMye27eSb2Sj'
-    access_token = '1116920083291365376-m8JDBmQPVdghV6mCgZmWBbyJqspxfH'
-    access_secret = 'SBCY1zlVMd1kPeIoA3AjpbTBNbD5OCaBfpIN71EPd42A0'
+    api_key = '*************************'
+    api_secret = '**************************************************'
+    access_token = '**************************************************'
+    access_secret = '*********************************************'
 
     auth = tweepy.OAuthHandler(api_key, api_secret)
     auth.set_access_token(access_token, access_secret)
