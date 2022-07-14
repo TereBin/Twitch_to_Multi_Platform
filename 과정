@@ -2,11 +2,11 @@
 1. 연산용 Oracle VM 서버열기
 2. Twitter developer 인증받기
 3. 보안 철저하게 하기...
+4. 트위터 API로 트윗하는 기능 만들기
 
 진행중
-1. 트위터 API로 트윗하는 기능 만들기
   
-  타인의 계정에 접속해서 트윗하는 방법
+1. 타 계정에 접속해서 트윗하기
   https://docs.tweepy.org/en/stable/authentication.html#legged-oauth
 2. 트위치 API로 신호 받기
 3. 트위치 API 신호를 받으면 트위터에 트윗하기
