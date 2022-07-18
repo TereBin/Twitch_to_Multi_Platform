@@ -1,18 +1,36 @@
-from pprint import pprint
+import requests
 
-from twitchAPI import Twitch, EventSub, UserAuthenticator, AuthScope
+streamer_ID = 'soonps'
+# get app_key and app_secret from local txt file
+app_data_txt = open("D:/TereBin/TtTB/twitch_app_data.txt", 'r')
+app_data = app_data_txt.read().splitlines()
+app_key = app_data[0]
+app_secret = app_data[1]
+app_data_txt.close()
 
-app_key = '******************************' #use your own
-app_secret = '******************************' #use your own
+# get access_token and token_type from oauth2
+auth_req = requests.post('https://id.twitch.tv/oauth2/token?client_id=' + app_key + '&client_secret=' + app_secret + '&grant_type=client_credentials')
+auth_req_json = auth_req.json()
 
-twitch = Twitch(app_key, app_secret)
-user_info = twitch.get_users(logins=['YOUR_TWITCH_ID'])
-pprint(user_info)
+access_token = auth_req_json["access_token"]
+token_type = auth_req_json["token_type"]
+token_type = token_type[0].upper() + token_type[1:]
 
-user_id = user_info['data'][0]['id']
-pprint(user_id)
+auth_token = token_type+" "+access_token
+# print(auth_token)
+headers = {'client-id':app_key, 'Authorization':auth_token}
 
-target_scope = [AuthScope.BITS_READ]
-auth = UserAuthenticator(twitch, target_scope, force_verify=False)
-token, refresh_token = auth.authenticate()
-twitch.set_user_authentication(token, target_scope, refresh_token)
+# get channel data from twitch
+stream_req = requests.get(f"https://api.twitch.tv/helix/search/channels?query={streamer_ID}", headers=headers)
+stream_req_json = stream_req.json()
+
+# check for specific streamer
+i = 0
+while i < len(stream_req_json["data"]):
+    if stream_req_json["data"][i]["broadcaster_login"] == streamer_ID :
+        is_live = stream_req_json["data"][i]["is_live"]
+        break
+    else :
+        i+=1
+
+print(is_live)
