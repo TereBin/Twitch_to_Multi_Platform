@@ -8,12 +8,16 @@ access_token = twitter_data[2]
 access_secret = twitter_data[3]
 twitter_data_txt.close()
 
+print(api_key)
+print(api_secret)
+print(access_token)
+print(access_secret)
 def send_tweet(tweet, api_key, api_secret, access_token, access_secret):
     auth = tweepy.OAuthHandler(api_key, api_secret)
     auth.set_access_token(access_token, access_secret)
     bot = tweepy.API(auth)
-    bot.update_status(tweet)
+    bot.update_status(status = tweet)
 
-tweet = "API 활용 봇 트윗 테스트입니다\n보안성 테스트 중입니다"
+tweet = "API 활용 봇 트윗 테스트입니다"
 
 send_tweet(tweet, api_key, api_secret, access_token, access_secret)
