@@ -1,6 +1,6 @@
 import requests
 
-streamer_ID = 'soonps'
+streamer_ID = 'terebin_420'
 # get app_key and app_secret from local txt file
 app_data_txt = open("D:/TereBin/TtTB/twitch_app_data.txt", 'r')
 app_data = app_data_txt.read().splitlines()
