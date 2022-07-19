@@ -1,6 +1,7 @@
 import json
 import requests
 import tweepy
+import time
 
 streamer_json_path = "D:/TereBin/TtTB/streamer_list.json"
 app_data_path = "D:/TereBin/TtTB/twitch_app_data.txt"
@@ -34,20 +35,20 @@ def check_twitch(app_data_path, streamer_ID):
 
     # get channel data from twitch
     stream_req = requests.get(f"https://api.twitch.tv/helix/search/channels?query={streamer_ID}", headers=headers)
-    stream_req_json = stream_req.json()
+    stream_req_json = stream_req.json()["data"]
 
     # check for specific streamer
     i = 0
     is_live = False # refreshing variable is_live
-    while i < len(stream_req_json["data"]):
-        if stream_req_json["data"][i]["broadcaster_login"] == streamer_ID:
-            is_live = stream_req_json["data"][i]["is_live"]
-            print(stream_req_json["data"][i]["display_name"])
+    while i < len(stream_req_json):
+        if stream_req_json[i]["broadcaster_login"] == streamer_ID:
+            is_live = stream_req_json[i]["is_live"]
+            print(stream_req_json[i]["display_name"])
             break
         else:
             i += 1
 
-    if is_live == True:
+    if is_live:
         print("online\n")
 
     else:
@@ -73,13 +74,14 @@ def tweet(twitter_api_data_path, tweet, link):
 
     send_tweet(tweet, api_key, api_secret, access_token, access_secret)
 
-#check for streamer that is online and send tweet about it
-#while True :
+# check for streamer that is online and send tweet about it
+# while True :
 streamer_dict = check_list(streamer_json_path)
 
 i = 0
 while i < len(streamer_dict) :
     is_live = check_twitch(app_data_path, streamer_dict[str(i)]["1_twitch_id"])
-    if is_live == True :
+    if is_live:
         tweet(twitter_api_data_path, streamer_dict[str(i)]["3_tweet"], "twitch.tv/" + streamer_dict[str(i)]["1_twitch_id"])
     i+=1
+    time.sleep(60)
