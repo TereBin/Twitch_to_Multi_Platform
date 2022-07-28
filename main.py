@@ -1,13 +1,12 @@
-import pprint as pp
-import json
 import requests
 import time
 
+from read_list import read_list
 from tweet import tweet
 from twitch_check import check_twitch
-from edit_live import edit_live
+from edit_list import edit_list
 
-streamer_json_path = "D:/TereBin/TtTB/streamer_list.json"
+streamer_json_path = "D:/TereBin/TtTB/data/streamer_list.json"
 app_data_path = "D:/TereBin/TtTB/twitch_app_data.txt"
 twitter_api_data_path = "D:/TereBin/TtTB/twitter_api_data.txt"
 
@@ -27,24 +26,18 @@ token_type = auth_req_json["token_type"]
 token_type = token_type[0].upper() + token_type[1:]
 auth_token = token_type + " " + access_token
 
-
-# check list of streamers. check it every minute.
-def read_list(streamer_json_path):
-    streamer_json = open(streamer_json_path, 'r', encoding='utf-8')  # open streamer_list.json as streamer_json
-    streamer_dict = json.load(streamer_json)  # make streamer_json to streamer_dict
-    streamer_json.close()
-    return streamer_dict
 # check for streamer that is online and send tweet about it
-# while True :
-streamer_dict = read_list(streamer_json_path)
-pp.pprint(streamer_dict)
-i = 1  # 0 is sample data
-while i < len(streamer_dict):
-    streamer_data = streamer_dict[str(i)]
-    is_live, live_stream = check_twitch(streamer_data["1_twitch_id"], app_key, auth_token)
-    live_change = edit_live(streamer_json_path, is_live, live_stream + 1)
-    if live_change :
-        print("트윗 전송")
-        tweet(twitter_api_data_path, streamer_data["3_tweet"], "twitch.tv/" + streamer_data["1_twitch_id"])
-    i += 1
-#  time.sleep(60)
+while True:
+    streamer_dict = read_list(streamer_json_path)
+    i = 1  # 0 is sample data
+    while i < len(streamer_dict):
+        streamer_data = streamer_dict[str(i)]
+        is_live, game_name, title = check_twitch(streamer_data["1_twitch_id"], app_key, auth_token)
+        live_change = edit_list(i, is_live)
+        if live_change:
+            print("트윗 전송")
+            tweet(twitter_api_data_path, streamer_data, game_name, title, "twitch.tv/" + streamer_data["1_twitch_id"])
+            print("\n")
+        i += 1
+    print("-"*50)
+    time.sleep(60)
