@@ -13,6 +13,8 @@ def check_twitch(streamer_id, app_key, auth_token):
         stream_data = stream_data_json[i]
         if stream_data["broadcaster_login"] == streamer_id:
             is_live = stream_data["is_live"]
+            game_name = stream_data["game_name"]
+            title = stream_data["title"]
             print(stream_data["display_name"])
             break
         else:
@@ -20,8 +22,8 @@ def check_twitch(streamer_id, app_key, auth_token):
 
     if is_live:
         print("online")
-        return is_live, i
+        return is_live, game_name, title
 
     else:
         print("offline")
-        return is_live, None
+        return is_live, game_name, title
