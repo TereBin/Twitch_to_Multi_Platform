@@ -1,5 +1,6 @@
 import requests
 import time
+import pprint as pp
 
 from read_list import read_list
 from tweet import tweet
@@ -32,12 +33,13 @@ while True:
     i = 1  # 0 is sample data
     while i < len(streamer_dict):
         streamer_data = streamer_dict[str(i)]
-        is_live, game_name, title = check_twitch(streamer_data["1_twitch_id"], app_key, auth_token)
+        is_live, category, title = check_twitch(streamer_data["1_twitch_id"], app_key, auth_token)
         live_change = edit_list(i, is_live)
         if live_change:
             print("트윗 전송")
-            tweet(twitter_api_data_path, streamer_data, game_name, title, "twitch.tv/" + streamer_data["1_twitch_id"])
+            tweet(twitter_api_data_path, streamer_data, category, title, "twitch.tv/" + streamer_data["1_twitch_id"])
             print("\n")
         i += 1
     print("-"*50)
+    print("\n")
     time.sleep(60)
