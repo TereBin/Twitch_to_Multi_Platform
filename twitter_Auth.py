@@ -1,6 +1,5 @@
 import tweepy
 import json
-import pprint as pp
 
 twitter_api_data_path = "D:/TereBin/TtTB/twitter_api_data.txt"
 twitter_data_txt = open(twitter_api_data_path, 'r')
@@ -10,37 +9,51 @@ api_secret = twitter_data[1]
 twitter_data_txt.close()
 
 streamer_json_path = "D:/TereBin/TtTB/data/streamer_list.json"
-streamer_json = json.load(
-        open(streamer_json_path, 'r', encoding='utf-8'))  # readable
-
-pp.pprint(streamer_json)
-'''
-twitch_id = input("트위치 아이디를 적어주세요 : ")
-twitter_id = input("트위터 아이디를 적어주세요  : ")
-tweet = input("원하는 문장을 적어주세요 : ")
-
-print(twitch_id, twitter_id, tweet)
-
-        streamer_json[str(i)]["4_signal"] = "True"
-        with open(streamer_json_path, 'w', encoding='utf-8') as file:
-            json.dump(streamer_json, file, indent="\t")
-        print("방송시작\n")
-        return True
-    if (is_live == False) and streamer_json[str(i)]["4_signal"] == "True":
-        streamer_json[str(i)]["4_signal"] = "False"
-        with open(streamer_json_path, 'w', encoding='utf-8') as file:
-            json.dump(streamer_json, file, indent="\t")
-        print("방송종료\n")
-        return False
-    else:
-        print("현상유지\n")
-        return False
-'''
+streamer_dict = json.load(
+        open(streamer_json_path, 'r', encoding='utf-8'))  # readable dict
 
 oauth1_user_handler = tweepy.OAuth1UserHandler(api_key, api_secret, callback='oob')
 print(oauth1_user_handler.get_authorization_url(signin_with_twitter=True))
 
-verifier = input("Input PIN: ")
-access_token, access_secret = oauth1_user_handler.get_access_token(verifier)
-print(access_token)
-print(access_secret)
+PIN = input("Input PIN: ")
+access_token, access_secret = oauth1_user_handler.get_access_token(PIN)
+
+twitch_id = input("트위치 아이디 : ")
+twitter_id = input("트위터 아이디 : ")
+tweet = input("문장 : ")
+input_category = input("카테고리를 넣으려면 Y : ")
+input_name = input("방제를 넣으려면 Y : ")
+input_link = input("링크를 넣으려면 Y : ")
+input_image = input("이미지를 넣으려면 Y : ")
+
+if input_category == "Y":
+    req_data = "True"
+else:
+    req_data = "False"
+if input_name == "Y":
+    req_data += ", True"
+else:
+    req_data += ", False"
+if input_link == "Y":
+    req_data += ", True"
+else:
+    req_data += ", False"
+if input_image == "Y":
+    req_data += ", True"
+else:
+    req_data += ", False"
+
+num = str(len(streamer_dict))
+streamer_dict[num] = {}
+streamer_dict[num]["1_twitch_id"] = twitch_id
+streamer_dict[num]["2_twitter_id"] = twitter_id
+streamer_dict[num]["3_tweet"] = tweet
+streamer_dict[num]["4_signal"] = "False"
+streamer_dict[num]["5_access_token"] = access_token
+streamer_dict[num]["6_access_secret"] = access_secret
+
+streamer_dict[num]["7_req_data"] = req_data
+streamer_dict[num]["8_img"] = ""
+
+with open(streamer_json_path, 'w', encoding='utf-8') as file:
+    json.dump(streamer_dict, file, indent='\t')
