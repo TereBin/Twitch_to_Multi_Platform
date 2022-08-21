@@ -1,5 +1,5 @@
 {
-"0": {
+	"0": {
 		"1_twitch_id": "",
 		"2_twitter_id": "",
 		"3_tweet": "",
@@ -9,4 +9,4 @@
 		"7_req_data": "True, True, True, False",
 		"8_img": ""
 	}
-  }
+}
