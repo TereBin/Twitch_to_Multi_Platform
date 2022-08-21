@@ -1,6 +1,7 @@
 import requests
 import time
-import pprint as pp
+
+import tweepy.errors
 
 from read_list import read_list
 from tweet import tweet
@@ -29,17 +30,23 @@ auth_token = token_type + " " + access_token
 
 # check for streamer that is online and send tweet about it
 while True:
+    print(time.strftime('%y/%m/%d %H:%M', time.localtime(time.time())), "\n")
     streamer_dict = read_list(streamer_json_path)
+    
     i = 1  # 0 is sample data
     while i < len(streamer_dict):
         streamer_data = streamer_dict[str(i)]
         is_live, category, title = check_twitch(streamer_data["1_twitch_id"], app_key, auth_token)
         live_change = edit_list(i, is_live)
+
         if live_change:
-            print("트윗 전송")
-            tweet(twitter_api_data_path, streamer_data, category, title, "twitch.tv/" + streamer_data["1_twitch_id"])
-            print("\n")
+            try:
+                tweet(twitter_api_data_path, streamer_data, category, title, "twitch.tv/" + streamer_data["1_twitch_id"])
+                print("트윗 전송\n")
+            except tweepy.errors.Forbidden as e:
+                print("트윗 전송 실패")
+                print("사유 :", e, "\n")
+                pass
         i += 1
     print("-"*50)
-    print("\n")
     time.sleep(60)
