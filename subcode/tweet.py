@@ -1,5 +1,4 @@
 import tweepy
-import distutils
 
 def tweet(twitter_api_data_path, streamer_data, category, title, link):
     twitter_data_txt = open(twitter_api_data_path, 'r')
@@ -13,9 +12,16 @@ def tweet(twitter_api_data_path, streamer_data, category, title, link):
     img_file = streamer_data["8_img"]
     streamer_req_data = list(map(str, streamer_data["7_req_data"].split(", ")))
     i = 0
+
     while i < len(streamer_req_data):
-        streamer_req_data[i] = distutils.util.strtobool(streamer_req_data[i])
+        # streamer_req_data[i] = distutils.util.strtobool(streamer_req_data[i]) 3.10 이후로 못쓴다
+        if streamer_req_data[i] == "True" :
+            streamer_req_data[i] = True
+        else :
+            streamer_req_data[i] = False
+
         i = i+1
+
     if streamer_req_data[0]:  # category
         tweet = tweet + "\n" + "카테고리 : [ " + category + " ]"
     if streamer_req_data[1]:  # title
@@ -44,9 +50,7 @@ def test_tweet(tweet):
     access_secret = "*********************************************"
     auth = tweepy.OAuthHandler(api_key, api_secret)
     auth.set_access_token(access_token, access_secret)
-    img_file = "D:/TereBin/TtTB/data/img/test.png"
     bot = tweepy.API(auth)
-    bot.update_status_with_media(status=tweet, filename=img_file)
-'''
-test_tweet("TtTB 연동 테스트용 트윗입니다. @terebin_420")
-'''
+    bot.update_status(status=tweet)
+
+test_tweet("TtTB 연결 테스트용 트윗입니다.")
