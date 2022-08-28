@@ -4,9 +4,11 @@
 ----------
 Contact
 
-twitch : twitch.tv/terebin_420
+Twitch : twitch.tv/terebin_420
 
-twitter : @terebin_420
+Twitter : @terebin_420
+
+Discord : TereBin#9929
 
 ----------
 
