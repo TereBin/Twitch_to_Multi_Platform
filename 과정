@@ -8,5 +8,10 @@
 
 진행중
 1. 코드 정리하기
-2. 노트북으로 옮겨서 계속 돌리기
+2. 라즈베리파이 사서 라즈베리에다가 돌리기
 3. 지금은 트위치에다가 1분에 한번씩 POST를 돌리지만 웹후크로 발전하기
+
++) TtDB (Twitch_to_Discord_Bot 만들기)
+FastAPI 사용해서 웹으로 사용자 받기
+
+언젠가는 TtMP Twitch to Multi Platform으로 바꾸기
