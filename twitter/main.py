@@ -9,8 +9,8 @@ from twitch_check import check_twitch
 from edit_list import edit_list
 
 streamer_json_path = "D:/TereBin/TtTB/data/streamer_list.json"
-app_data_path = "D:/TereBin/TtTB/twitch_app_data.txt"
-twitter_api_data_path = "D:/TereBin/TtTB/twitter_api_data.txt"
+app_data_path = "D:/TereBin/TtTB/data/twitch_app_data.txt"
+twitter_api_data_path = "D:/TereBin/TtTB/data/twitter_api_data.txt"
 
 # get twitch api key
 app_data_txt = open(app_data_path, 'r')
@@ -30,6 +30,7 @@ auth_token = token_type + " " + access_token
 
 # check for streamer that is online and send tweet about it
 while True:
+    start = time.time()
     print(time.strftime('%y/%m/%d %H:%M', time.localtime(time.time())), "\n")
     streamer_dict = read_list(streamer_json_path)
     
@@ -48,5 +49,6 @@ while True:
                 print("사유 :", e, "\n")
                 pass
         i += 1
+    print("실행시간 :", str(round(time.time() - start, 2)) + "초")
     print("-"*50)
     time.sleep(60)
