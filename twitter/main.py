@@ -8,9 +8,9 @@ from tweet import tweet
 from twitch_check import check_twitch
 from edit_list import edit_list
 
-streamer_json_path = "D:/TereBin/TtTB/data/streamer_list.json"
-app_data_path = "D:/TereBin/TtTB/data/twitch_app_data.txt"
-twitter_api_data_path = "D:/TereBin/TtTB/data/twitter_api_data.txt"
+streamer_json_path = "data/streamer_list.json"
+app_data_path = "data/twitch_app_data.txt"
+twitter_api_data_path = "data/twitter_api_data.txt"
 
 # get twitch api key
 app_data_txt = open(app_data_path, 'r')
@@ -38,16 +38,19 @@ while True:
     while i < len(streamer_dict):
         streamer_data = streamer_dict[str(i)]
         is_live, category, title = check_twitch(streamer_data["1_twitch_id"], app_key, auth_token)
-        live_change = edit_list(i, is_live)
+        if is_live is None:
+            print("")
+        else:
+            live_change = edit_list(i, is_live)
 
-        if live_change:
-            try:
-                tweet(twitter_api_data_path, streamer_data, category, title, "twitch.tv/" + streamer_data["1_twitch_id"])
-                print("트윗 전송\n")
-            except tweepy.errors.Forbidden as e:
-                print("트윗 전송 실패")
-                print("사유 :", e, "\n")
-                pass
+            if live_change:
+                try:
+                    tweet(twitter_api_data_path, streamer_data, category, title, "twitch.tv/" + streamer_data["1_twitch_id"])
+                    print("트윗 전송\n")
+                except tweepy.errors.Forbidden as e:
+                    print("tweepy error")
+                    print("사유 :", e, "\n")
+                    pass
         i += 1
     print("실행시간 :", str(round(time.time() - start, 2)) + "초")
     print("-"*50)
