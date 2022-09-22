@@ -1,14 +1,14 @@
 import tweepy
 import json
 
-twitter_api_data_path = "D:/TereBin/TtTB/twitter_api_data.txt"
+twitter_api_data_path = "data/twitter_api_data.txt"
 twitter_data_txt = open(twitter_api_data_path, 'r')
 twitter_data = twitter_data_txt.read().splitlines()
 api_key = twitter_data[0]
 api_secret = twitter_data[1]
 twitter_data_txt.close()
 
-streamer_json_path = "D:/TereBin/TtTB/data/streamer_list.json"
+streamer_json_path = "data/streamer_list.json"
 streamer_dict = json.load(
         open(streamer_json_path, 'r', encoding='utf-8'))  # readable dict
 
