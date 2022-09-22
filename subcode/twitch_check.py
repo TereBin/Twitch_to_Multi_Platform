@@ -3,7 +3,13 @@ import requests
 # get channel data from twitch. get it every minute
 def check_twitch(streamer_id, app_key, auth_token):
     stream_headers = {'client-id': app_key, 'Authorization': auth_token}
-    stream_req = requests.get(f"https://api.twitch.tv/helix/search/channels?query={streamer_id}", headers=stream_headers)
+    try:
+        stream_req = requests.get(f"https://api.twitch.tv/helix/search/channels?query={streamer_id}", headers=stream_headers)
+    except requests.exceptions.ConnectionError as e:
+        print("req error! twitch 연결 불가")
+        print(e)
+        return None, None, None
+
     stream_data_json = stream_req.json()["data"]
 
     # check for specific streamer
