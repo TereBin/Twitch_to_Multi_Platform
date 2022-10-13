@@ -5,10 +5,14 @@ def check_twitch(streamer_id, app_key, auth_token):
     stream_headers = {'client-id': app_key, 'Authorization': auth_token}
     try:
         stream_req = requests.get(f"https://api.twitch.tv/helix/search/channels?query={streamer_id}", headers=stream_headers)
-    except requests.exceptions.ConnectionError as e:
-        print("req error! twitch 연결 불가")
-        print(e)
-        return None, None, None
+    except tweepy.errors.Forbidden as err:
+        err_str = str(err)
+        with open(err_log_path, 'a') as f:
+            err_code = "[" + str(time.strftime('%m/%d %H:%M', time.localtime(time.time()))) + "] " + "req error : \n" + err_str + "\n"
+            f.write(err_code)
+            print("req error! twitch 연결 불가")
+            print("사유 :", err, "\n")
+            pass
 
     stream_data_json = stream_req.json()["data"]
 
