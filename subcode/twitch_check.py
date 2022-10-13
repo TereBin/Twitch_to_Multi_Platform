@@ -11,7 +11,6 @@ def check_twitch(streamer_id, app_key, auth_token):
             err_code = "[" + str(time.strftime('%m/%d %H:%M', time.localtime(time.time()))) + "] " + "req error : \n" + err_str + "\n"
             f.write(err_code)
             print("req error! twitch 연결 불가")
-            print("사유 :", err, "\n")
             pass
 
     stream_data_json = stream_req.json()["data"]
