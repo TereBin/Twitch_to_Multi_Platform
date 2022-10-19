@@ -7,11 +7,12 @@ from read_list import read_list
 from tweet import tweet
 from twitch_check import check_twitch
 from edit_list import edit_list
+from send_chat import send_chat
 
 streamer_json_path = "data/streamer_list.json"
 app_data_path = "data/twitch_app_data.txt"
 twitter_api_data_path = "data/twitter_api_data.txt"
-err_log_path = "data/err_log.txt"
+twitch_bot_data_path = 'data/twitch_bot_data.txt'
 
 # get twitch api key
 app_data_txt = open(app_data_path, 'r')
@@ -47,14 +48,11 @@ while True:
             if live_change:
                 try:
                     tweet(twitter_api_data_path, streamer_data, category, title, "twitch.tv/" + streamer_data["1_twitch_id"])
+                    send_chat(twitch_bot_data_path, streamer_data["1_twitch_id"])
                     print("트윗 전송\n")
-                except tweepy.errors.Forbidden as err:
-                    err_str = str(err)
-                    with open(err_log_path, 'a') as f:
-                        err_code = "[" + str(time.strftime('%m/%d %H:%M', time.localtime(time.time()))) + "] " + "tweepy error : \n" + err_str + "\n"
-                        f.write(err_code)
+                except tweepy.errors.Forbidden as e:
                     print("tweepy error")
-                    print("사유 :", err, "\n")
+                    print("사유 :", e, "\n")
                     pass
         i += 1
     print("실행시간 :", str(round(time.time() - start, 2)) + "초")
