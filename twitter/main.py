@@ -77,13 +77,14 @@ while True:
             f.write(err_code)
         print("new error")
         print("사유 :", err, "\n")
-        
-        run_time = round(time.time() - start, 2)
-        print("실행시간 :", str(run_time) + "초")
-        print("-"*50)
-        if run_time < 60:
-            time.sleep(60 - run_time)
-        else:
-            time.sleep(60 - (run_time % 60))
-            time.sleep(0)
         pass
+        
+    run_time = round(time.time() - start, 2)
+    print("실행시간 :", str(run_time) + "초")
+    print("-"*50)
+    if run_time < 60:
+        time.sleep(60 - run_time)
+    else:
+        time.sleep(60 - (run_time % 60))
+        time.sleep(0)
+    
