@@ -13,6 +13,11 @@ Twitter : @terebin_420
 Discord : TereBin#9929
 
 ----------
+How to Use
+
+https://terebin.postype.com/post/13992682
+
+----------
 
 twitter API : Twitter API v2
 
